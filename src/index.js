@@ -1,13 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './styles/index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './tests/reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
+import TextFish from './pages/TextFish';
+import BlankPage from './pages/BlankPage';
+import CaseConvertion from './pages/CaseConvertion';
+import BoxShadow from './pages/BoxShadow';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: '/lorem',
+        element: <TextFish />
+      },
+      {
+        path: '/case',
+        element: <CaseConvertion />
+      },
+      {
+        path: '/box-shadow',
+        element: <BoxShadow />
+      },
+      {
+        path: '/blank',
+        element: <BlankPage />
+      }
+    ]
+  }
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
