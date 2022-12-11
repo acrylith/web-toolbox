@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, TextField, Chip, Typography } from '@mui/material'
 import { Box, Container } from '@mui/system'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import v from 'voca'
 
 export default function CaseConvertion() {
@@ -24,7 +25,10 @@ export default function CaseConvertion() {
                     sx={{ m: '24px 0' }}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'center', m: '24px 0' }}>
-                    <Button variant='contained' onClick={copyToClipBoard}>Copy</Button>
+                    <Button variant='contained' onClick={copyToClipBoard}>
+                        <ContentCopyIcon sx={{ fontSize: 16, mr: 1 }}/>
+                        Copy
+                    </Button>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'center', gap: '1em', flexWrap: 'wrap' }}>
                     <Chip onClick={() => setText(v.upperCase(text))} label='UPPER CASE'/>

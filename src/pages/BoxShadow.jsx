@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
 import { Container } from '@mui/system'
-import { Box, Divider, FormControlLabel, Grid, Radio, RadioGroup, Slider, Stack, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, Radio, RadioGroup, Slider, Stack, Typography } from '@mui/material'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import React, { useState, useRef } from 'react'
 import Screen from '../components/Screen'
 
 export default function BoxShadow() {
@@ -13,6 +14,8 @@ export default function BoxShadow() {
     const [shadowColor, setShadowColor] = useState('#dddddd')
     const [bodyColor, setBodyColor] = useState('#1976d2')
     const [bgColor, setBgColor] = useState('#ffffff')
+    const [inset, setInset] = useState(false)
+    const codeRef = useRef()
     const Blank = styled.div`
         background-color: ${bodyColor};
         width: ${shape === 'header' ? '100%' : '200px'};
@@ -22,11 +25,11 @@ export default function BoxShadow() {
         transition: all .5s;
     `
     const Fig = styled(Blank)`
-        -webkit-box-shadow: ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
-        -moz-box-shadow: ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
-        box-shadow: ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
+        -webkit-box-shadow:${inset? ' inset' : null} ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
+        -moz-box-shadow:${inset? ' inset' : null} ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
+        box-shadow:${inset? ' inset' : null} ${xOffset}px ${yOffset}px ${blur}px ${spread}px ${shadowColor};
     `
-    console.log(Fig)
+    // console.log(inset)
     return (
         <div>
             <Container>
@@ -83,6 +86,17 @@ export default function BoxShadow() {
                                         <input type='color' value={shadowColor} onChange={(e) => setShadowColor(e.target.value)} /> 
                                         {shadowColor}
                                     </Box>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={inset}
+                                                onChange={() => setInset(!inset)}
+                                                inputprops={{ 'aria-label': 'controlled' }}
+                                                color='primary'
+                                            />
+                                        }
+                                        label='Inset'
+                                    />
                                 </Stack>
                             </Grid>
                             <Grid item xs={12} lg={6}>
@@ -121,14 +135,20 @@ export default function BoxShadow() {
                         '& pre': { m: 0 }, overflow: 'hidden', mt: 2
                     }}>
                     <Typography component='h4' variant='subtitle1' color='GrayText' sx={{backgroundColor: '#f2f2f2', p: '0 12px'}}>
-                        Code
+                        CSS
                     </Typography>
                     <Divider />
-                    <pre>
+                    <pre ref={codeRef}>
                         <code>
                             {Fig.__emotion_styles.slice(11).map(item => item)}
                         </code>
                     </pre>
+                </Box>
+                <Box sx={{ mt: 2, mb: 2, display: 'flex', justifyContent: 'center' }}>
+                    <Button variant='contained' onClick={() => navigator.clipboard.writeText(codeRef.current.innerText)}>
+                        <ContentCopyIcon sx={{ fontSize: 16, mr: 1 }}/>
+                        Copy
+                    </Button>
                 </Box>
             </Container>
         </div>
